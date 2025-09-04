@@ -4,7 +4,11 @@ import React from 'react'
 import TourCategories from '@/components/TourCatagories'
 import PopularTours from '@/components/PopularTour'
 import Opportunities from '@/components/Opportunities'
+import TravelStats from '@/components/TravelsStats'
+import OffersToInspire from '@/components/OffersToInspire'
+import Testimonials from '@/components/Testimonials'
 import Footer from '@/components/Footer'
+import { Stats } from 'fs'
 
 function travelPakitan() {
   return (
@@ -14,6 +18,9 @@ function travelPakitan() {
       <TourCategories/>
       <PopularTours/>
       <Opportunities/>
+      <TravelStats/>
+      <OffersToInspire/>
+      <Testimonials/>
       <Footer/>
     </div>
   )

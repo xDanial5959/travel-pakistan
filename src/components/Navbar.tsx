@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
@@ -9,16 +8,11 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            {/* <img
-              src="/images/logo.webp" 
-              alt="Travel Pakistan"
-              className="h-10 w-auto"
-            /> */}
-            <span className="ml-2 text-xl font-bold text-gray-800">
+            <span className="ml-2 text-lg sm:text-xl font-bold text-gray-800">
               TravelPakistan
             </span>
           </Link>
@@ -43,10 +37,10 @@ export default function Navbar() {
             <Link href="/blog" className="text-gray-700 hover:text-blue-600 transition">
               Blog
             </Link>
-           
-          </div>
-          <div>
-             <Link href="/contact" className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            <Link
+              href="/contact"
+              className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
               Book Now
             </Link>
           </div>
@@ -60,7 +54,7 @@ export default function Navbar() {
               {isOpen ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-7 w-7"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -70,7 +64,7 @@ export default function Navbar() {
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-7 w-7"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -83,20 +77,39 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white shadow-md">
-          <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home</Link>
-          <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Destinations</Link>
-          <Link href="/tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Tours</Link>
-          <Link href="/about" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">About</Link>
-          <Link href="/testimonials" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Testimonials</Link>
-          <Link href="/blog" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Blog</Link>
-          <Link href="/contact" className="block px-4 py-2 text-white bg-blue-600 rounded m-2 text-center hover:bg-blue-700">
+      {/* Mobile Menu with animation */}
+      <div
+        className={`md:hidden bg-white shadow-md transition-all duration-300 overflow-hidden ${
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="space-y-1 py-2">
+          <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            Home
+          </Link>
+          <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            Destinations
+          </Link>
+          <Link href="/tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            Tours
+          </Link>
+          <Link href="/about" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            About
+          </Link>
+          <Link href="/testimonials" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            Testimonials
+          </Link>
+          <Link href="/blog" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            Blog
+          </Link>
+          <Link
+            href="/contact"
+            className="block px-4 py-2 text-white bg-blue-600 rounded-lg mx-4 text-center hover:bg-blue-700 transition"
+          >
             Book Now
           </Link>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

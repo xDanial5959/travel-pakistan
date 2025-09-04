@@ -98,7 +98,7 @@ export default function OpportunitySection() {
 
       {/* Decorative Plane (optional) */}
       <Image
-        src="/images/plane.png"
+        src="/images/plane.jpg"
         alt="Plane"
         width={120}
         height={120}

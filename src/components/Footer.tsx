@@ -11,7 +11,7 @@ export default function Footer() {
         {/* Company Info */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Image src="/images/logo.png" alt="Logo" width={40} height={40} />
+            {/* <Image src="/images/logo.png" alt="Logo" width={40} height={40} /> */}
             <span className="text-white font-bold text-xl">TravelCo</span>
           </div>
           <p className="text-gray-400 text-sm">
