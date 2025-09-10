@@ -7,6 +7,8 @@ import Opportunities from '@/components/Opportunities'
 import TravelStats from '@/components/TravelsStats'
 import OffersToInspire from '@/components/OffersToInspire'
 import Testimonials from '@/components/Testimonials'
+import Articles from '@/components/Articles-Posts'
+import Gallery from '@/components/Gallery'
 import Footer from '@/components/Footer'
 import { Stats } from 'fs'
 
@@ -21,6 +23,8 @@ function travelPakitan() {
       <TravelStats/>
       <OffersToInspire/>
       <Testimonials/>
+      <Articles/>
+      <Gallery/>
       <Footer/>
     </div>
   )

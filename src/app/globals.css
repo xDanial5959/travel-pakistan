@@ -17,3 +17,15 @@
 .swiper-pagination-bullet-active {
   opacity: 1;
 }
+
+@keyframes movePattern {
+  from { background-position: 0 0; }
+  to { background-position: 100px 100px; }
+}
+
+.pattern-animation {
+  background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: movePattern 20s linear infinite;
+}
+
