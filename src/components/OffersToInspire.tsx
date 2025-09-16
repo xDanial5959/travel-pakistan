@@ -2,17 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 type Offer = {
   id: string;
   title: string;
   location: string;
-  nights: string; // e.g., "5 Days • 4 Nights"
-  price: string;  // e.g., "PKR 35,000"
-  rating: number; // 0-5
-  image: string;  // /public path
+  nights: string;
+  price: string;
+  rating: number;
+  image: string;
   href: string;
-  tag?: string;   // optional small pill/tag
+  tag?: string;
 };
 
 const offers: Offer[] = [
@@ -63,7 +65,6 @@ const offers: Offer[] = [
 ];
 
 function Stars({ value }: { value: number }) {
-  // Renders 5 stars; fills based on value (e.g., 4.6 → 4 full, 1 half)
   const full = Math.floor(value);
   const half = value - full >= 0.25 && value - full < 0.75;
   const count = 5;
@@ -75,13 +76,11 @@ function Stars({ value }: { value: number }) {
         const isHalf = i === full && half;
         return (
           <span key={i} className="inline-block align-middle">
-            {/* Full star */}
             {isFull && (
               <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current text-yellow-400">
                 <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.401 8.168L12 18.897l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192L12 .587z" />
               </svg>
             )}
-            {/* Half star */}
             {!isFull && isHalf && (
               <svg viewBox="0 0 24 24" className="h-4 w-4 text-yellow-400">
                 <defs>
@@ -97,7 +96,6 @@ function Stars({ value }: { value: number }) {
                 />
               </svg>
             )}
-            {/* Empty star */}
             {!isFull && !isHalf && (
               <svg viewBox="0 0 24 24" className="h-4 w-4 text-gray-300">
                 <path
@@ -129,8 +127,54 @@ export default function OffersToInspire() {
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile Swiper */}
+        <div className="block sm:hidden">
+          <Swiper spaceBetween={16} slidesPerView={1.1}>
+            {offers.map((offer) => (
+              <SwiperSlide key={offer.id}>
+                <Link
+                  href={offer.href}
+                  className="group relative block overflow-hidden rounded-2xl bg-gray-100 shadow hover:shadow-lg transition-shadow"
+                >
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src={offer.image}
+                      alt={offer.title}
+                      fill
+                      sizes="100vw"
+                      quality={100}
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    {offer.tag && (
+                      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-gray-900 backdrop-blur">
+                        {offer.tag}
+                      </span>
+                    )}
+                    <div className="absolute inset-x-0 bottom-0 p-4">
+                      <h3 className="text-white text-lg font-semibold leading-tight">
+                        {offer.title}
+                      </h3>
+                      <p className="text-gray-200 text-sm">
+                        {offer.location} • {offer.nights}
+                      </p>
+                      <div className="mt-3 flex items-center justify-between">
+                        <Stars value={offer.rating} />
+                        <div className="text-right">
+                          <p className="text-xs text-gray-300">From</p>
+                          <p className="text-white font-semibold">{offer.price}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden sm:grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {offers.map((offer) => (
             <Link
               key={offer.id}
@@ -146,27 +190,21 @@ export default function OffersToInspire() {
                   quality={100}
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
-                {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                {/* Tag */}
                 {offer.tag && (
                   <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-gray-900 backdrop-blur">
                     {offer.tag}
                   </span>
                 )}
-
-                {/* Bottom content */}
                 <div className="absolute inset-x-0 bottom-0 p-4">
                   <h3 className="text-white text-lg font-semibold leading-tight">
                     {offer.title}
                   </h3>
-                  <p className="text-gray-200 text-sm">{offer.location} • {offer.nights}</p>
-
+                  <p className="text-gray-200 text-sm">
+                    {offer.location} • {offer.nights}
+                  </p>
                   <div className="mt-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Stars value={offer.rating} />
-                    </div>
+                    <Stars value={offer.rating} />
                     <div className="text-right">
                       <p className="text-xs text-gray-300">From</p>
                       <p className="text-white font-semibold">{offer.price}</p>
