@@ -68,7 +68,7 @@ export default function PopularTours() {
             Most Popular Tours
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Our travelers’ favorite tours, crafted for unforgettable experiences.
+            Our travelers&apos; favorite tours, crafted for unforgettable experiences.
           </p>
         </div>
 
@@ -95,9 +95,9 @@ export default function PopularTours() {
             nextEl: nextRef.current,
           }}
           onBeforeInit={(swiper) => {
-            // @ts-ignore
+            // @ts-expect-error: Swiper types don't recognize dynamic navigation assignment
             swiper.params.navigation.prevEl = prevRef.current;
-            // @ts-ignore
+            // @ts-expect-error: Swiper types don't recognize dynamic navigation assignment
             swiper.params.navigation.nextEl = nextRef.current;
           }}
           breakpoints={{
@@ -108,7 +108,10 @@ export default function PopularTours() {
           className="pb-12"
         >
           {tours.map((tour) => (
-            <SwiperSlide key={tour.id} className="transition-transform duration-500">
+            <SwiperSlide
+              key={tour.id}
+              className="transition-transform duration-500"
+            >
               <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition group h-full">
                 {/* Image */}
                 <div className="relative h-56 w-full">

@@ -10,7 +10,7 @@ import Testimonials from '@/components/Testimonials'
 import Articles from '@/components/Articles-Posts'
 import Gallery from '@/components/Gallery'
 import Footer from '@/components/Footer'
-import { Stats } from 'fs'
+
 
 function travelPakitan() {
   return (
