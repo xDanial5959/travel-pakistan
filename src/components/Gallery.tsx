@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 type GalleryItem = {
   id: number;
@@ -24,21 +28,15 @@ const gallery: GalleryItem[] = [
 export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // keyboard controls
+  // keyboard navigation
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (selectedIndex === null) return;
-      if (e.key === "Escape") {
-        setSelectedIndex(null);
-      } else if (e.key === "ArrowRight") {
-        setSelectedIndex((prev) =>
-          prev === null ? null : (prev + 1) % gallery.length
-        );
-      } else if (e.key === "ArrowLeft") {
-        setSelectedIndex((prev) =>
-          prev === null ? null : (prev - 1 + gallery.length) % gallery.length
-        );
-      }
+      if (e.key === "Escape") setSelectedIndex(null);
+      else if (e.key === "ArrowRight")
+        setSelectedIndex((prev) => (prev === null ? null : (prev + 1) % gallery.length));
+      else if (e.key === "ArrowLeft")
+        setSelectedIndex((prev) => (prev === null ? null : (prev - 1 + gallery.length) % gallery.length));
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -60,9 +58,40 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* collage grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
-          {/* big feature */}
+        {/* Swiper on small screens */}
+        <div className="sm:hidden">
+          <Swiper
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={20}
+            slidesPerView={1.1}
+          >
+            {gallery.map((item, i) => (
+              <SwiperSlide key={item.id}>
+                <div
+                  className="relative h-64 rounded-2xl overflow-hidden shadow-lg group cursor-pointer"
+                  onClick={() => setSelectedIndex(i)}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
+                    <h3 className="text-white text-lg font-semibold">{item.alt}</h3>
+                    <p className="text-gray-200 text-xs">
+                      {item.location} • {item.date}
+                    </p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Grid collage for larger screens */}
+        <div className="hidden sm:grid grid-cols-6 gap-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -74,19 +103,16 @@ export default function Gallery() {
             <Image
               src={gallery[0].src}
               alt={gallery[0].alt}
-              width={1600}
-              height={1000}
+              fill
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-6">
               <h3 className="text-white text-2xl font-semibold">{gallery[0].alt}</h3>
-              <p className="text-gray-200 text-sm">
-                {gallery[0].location} • {gallery[0].date}
-              </p>
+              <p className="text-gray-200 text-sm">{gallery[0].location} • {gallery[0].date}</p>
             </div>
           </motion.div>
 
-          {/* two stacked tiles */}
+          {/* stacked */}
           <div className="sm:col-span-2 grid grid-rows-2 gap-4">
             {gallery.slice(1, 3).map((item, i) => (
               <motion.div
@@ -101,21 +127,18 @@ export default function Gallery() {
                 <Image
                   src={item.src}
                   alt={item.alt}
-                  width={800}
-                  height={600}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
                   <p className="text-white text-lg font-medium">{item.alt}</p>
-                  <span className="text-gray-200 text-xs">
-                    {item.location} • {item.date}
-                  </span>
+                  <span className="text-gray-200 text-xs">{item.location} • {item.date}</span>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* bottom three tiles */}
+          {/* bottom */}
           {gallery.slice(3, 6).map((item, i) => (
             <motion.div
               key={item.id}
@@ -129,15 +152,12 @@ export default function Gallery() {
               <Image
                 src={item.src}
                 alt={item.alt}
-                width={800}
-                height={600}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
                 <p className="text-white text-base font-medium">{item.alt}</p>
-                <span className="text-gray-200 text-xs">
-                  {item.location} • {item.date}
-                </span>
+                <span className="text-gray-200 text-xs">{item.location} • {item.date}</span>
               </div>
             </motion.div>
           ))}
@@ -155,14 +175,13 @@ export default function Gallery() {
             className="relative z-10 max-w-4xl w-full rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close */}
             <button
               aria-label="Close"
               onClick={() => setSelectedIndex(null)}
               className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow hover:bg-white text-gray-700"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 6l12 12M6 18L18 6" />
-              </svg>
+              ✕
             </button>
 
             {/* selected image */}
@@ -170,32 +189,23 @@ export default function Gallery() {
               <Image
                 src={gallery[selectedIndex].src}
                 alt={gallery[selectedIndex].alt}
-                width={1600}
-                height={1000}
-                className="w-full h-full object-contain bg-black"
+                fill
+                className="object-contain bg-black"
                 priority
               />
             </div>
 
-            {/* navigation arrows */}
+            {/* nav arrows */}
             <button
               aria-label="Previous"
-              onClick={() =>
-                setSelectedIndex((prev) =>
-                  prev === null ? null : (prev - 1 + gallery.length) % gallery.length
-                )
-              }
+              onClick={() => setSelectedIndex((prev) => (prev === null ? null : (prev - 1 + gallery.length) % gallery.length))}
               className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow hover:bg-white text-gray-700"
             >
               ‹
             </button>
             <button
               aria-label="Next"
-              onClick={() =>
-                setSelectedIndex((prev) =>
-                  prev === null ? null : (prev + 1) % gallery.length
-                )
-              }
+              onClick={() => setSelectedIndex((prev) => (prev === null ? null : (prev + 1) % gallery.length))}
               className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow hover:bg-white text-gray-700"
             >
               ›
