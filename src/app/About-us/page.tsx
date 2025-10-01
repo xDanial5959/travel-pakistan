@@ -7,35 +7,36 @@ import Image from "next/image";
 
 export default function AboutUs() {
   return (
-    <main className="bg-white text-gray-800">
+    <main className="bg-white text-gray-800 pt-16 sm:pt-20">
       {/* Fixed Navbar */}
       <header className="fixed top-0 left-0 w-full z-50 bg-transparent transition-colors duration-300">
         <Navbar />
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-[80vh] w-full flex items-center justify-center">
+      <section className="relative min-h-[70vh] sm:min-h-[80vh] w-full flex items-center justify-center pt-20">
         {/* Background Image */}
         <Image
-          src="/images/founder1.jpg"
+          src="/images/aboutus.jpg"
           alt="About Us Hero"
           fill
           priority
-          className="object-cover brightness-75"
+          quality={100}
+          className="object-cover object-center brightness-75"
         />
 
         {/* Overlay Content */}
-        <div className="relative z-10 text-center px-6">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg animate-fadeInUp">
+        <div className="relative z-10 text-center px-4 sm:px-6">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg animate-fadeInUp">
             About <span className="text-green-400">Us</span>
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-gray-200 text-lg md:text-xl animate-fadeInUp delay-200">
+          <p className="mt-3 sm:mt-4 max-w-2xl mx-auto text-gray-200 text-base sm:text-lg md:text-xl animate-fadeInUp delay-200">
             Discover our journey, meet our team, and explore how we’re reshaping
             tourism in Pakistan with love for nature and adventure.
           </p>
           <a
             href="#our-team"
-            className="mt-6 inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition"
+            className="mt-5 sm:mt-6 inline-block px-5 sm:px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition"
           >
             Meet the Team
           </a>
@@ -46,34 +47,36 @@ export default function AboutUs() {
       </section>
 
       {/* Who We Are Section */}
-      <section className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 px-6 py-20 items-center">
+      <section className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 py-16 sm:py-20 items-center">
         {/* Image */}
-        <div className="relative h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-lg">
+        <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-lg">
           <Image
-            src="/images/founders.jpg"
+            src="/images/avatar.jpg"
             alt="Founders"
             fill
+            quality={100}
             className="object-cover hover:scale-105 transition-transform duration-500"
           />
         </div>
 
         {/* Text */}
         <div>
-          <h2 className="text-3xl font-extrabold text-green-600 mb-3">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-green-600 mb-3">
             Who we are?
           </h2>
-          <p className="text-gray-600 leading-relaxed">
-            Hi, I am <span className="font-semibold">Neha Tahir</span>. I started
-            this venture back in 2018 after gathering my experience for over two
-            years and now a total of almost seven years in this full of potential
-            industry of Pakistan, the{" "}
-            <span className="font-semibold">Tourism Industry</span>, by the name of{" "}
+          <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+            Hi, I am <span className="font-semibold">Neha Tahir</span>. I
+            started this venture back in 2018 after gathering my experience for
+            over two years and now a total of almost seven years in this full of
+            potential industry of Pakistan, the{" "}
+            <span className="font-semibold">Tourism Industry</span>, by the name
+            of{" "}
             <span className="font-semibold text-green-600">
               NatureHikePakistan.pk
             </span>
             .
           </p>
-          <p className="mt-4 text-gray-600 leading-relaxed">
+          <p className="mt-4 text-gray-600 leading-relaxed text-sm sm:text-base">
             Together, with this team of wild travelers, we are committed to
             bringing more sustainable and yet exciting tourism in Pakistan,
             playing our part in showcasing its beauty.
@@ -82,29 +85,33 @@ export default function AboutUs() {
       </section>
 
       {/* Team */}
-      <section id="our-team" className="bg-gray-50 py-20 px-6">
-        <h2 className="text-3xl font-bold text-center text-green-600 mb-12">
+      <section id="our-team" className="bg-gray-50 py-16 sm:py-20 px-6">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-green-600 mb-10 sm:mb-12">
           Our Team
         </h2>
-        <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-10">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10">
           {[
-            { name: "Neha Tahir", role: "Founder", img: "/images/avatar1.jpg" },
+            { name: "Neha Tahir", role: "Founder", img: "/images/avatar3.jpg" },
             { name: "Nouman Ali", role: "Co-Founder", img: "/images/avatar2.jpg" },
           ].map((member) => (
             <div
               key={member.name}
               className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2"
             >
-              <Image
-                src={member.img}
-                alt={member.name}
-                width={400}
-                height={400}
-                className="object-cover w-full h-[400px]"
-              />
-              <div className="p-4">
-                <h4 className="text-lg font-semibold">{member.name}</h4>
-                <p className="text-green-600 font-medium uppercase text-sm">
+              <div className="relative h-[350px] sm:h-[450px]">
+                <Image
+                  src={member.img}
+                  alt={member.name}
+                  fill
+                  quality={100}
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4 text-center sm:text-left">
+                <h4 className="text-base sm:text-lg font-semibold">
+                  {member.name}
+                </h4>
+                <p className="text-green-600 font-medium uppercase text-xs sm:text-sm">
                   {member.role}
                 </p>
               </div>
@@ -114,14 +121,14 @@ export default function AboutUs() {
       </section>
 
       {/* Clients */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-green-600 mb-6">
+      <section className="max-w-5xl mx-auto px-6 py-16 sm:py-20 text-center">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-6">
           Who are our clients?
         </h2>
-        <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto">
-          Our clients include families, couples, students, friends, and corporate
-          groups. Whoever you are, we build the best packages for you and always
-          welcome you.
+        <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto text-sm sm:text-base">
+          Our clients include families, couples, students, friends, and
+          corporate groups. Whoever you are, we build the best packages for you
+          and always welcome you.
         </p>
       </section>
 
@@ -129,14 +136,16 @@ export default function AboutUs() {
       <Testimonials />
 
       {/* CTA */}
-      <section className="bg-black text-center py-20">
-        <h2 className="text-3xl font-bold text-yellow-400 mb-4">
+      <section className="bg-black text-center py-16 sm:py-20 px-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-4">
           Ready for an unforgettable tour?
         </h2>
-        <p className="text-white mb-6">Plan your trips with us</p>
+        <p className="text-white mb-6 text-sm sm:text-base">
+          Plan your trips with us
+        </p>
         <a
           href="/contact"
-          className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition"
+          className="px-5 sm:px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition"
         >
           Customize a Tour
         </a>

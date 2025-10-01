@@ -97,11 +97,11 @@ export default function Navbar() {
           <div className="hidden md:flex space-x-6 items-center">
             {[
               { name: "Home", href: "/" },
-              { name: "Destinations", href: "/destinations" },
-              { name: "Tours", href: "/tours" },
+              { name: "Destinations", href: "./Destinations" },
+              { name: "Tours", href: "./Tours" },
               { name: "About", href: "./About-us" },
-              { name: "Testimonials", href: "/testimonials" },
-              { name: "Blog", href: "/blog" },
+              { name: "Testimonials", href: "./Testimonials" },
+              { name: "Blog", href: "./Blog" },
             ].map((link) => (
               <Link
                 key={link.name}
@@ -171,11 +171,11 @@ export default function Navbar() {
           <div className="flex flex-col space-y-1">
             {[
               { name: "Home", href: "/" },
-              { name: "Destinations", href: "/destinations" },
-              { name: "Tours", href: "/tours" },
-              { name: "About", href: "/about" },
-              { name: "Testimonials", href: "/testimonials" },
-              { name: "Blog", href: "/blog" },
+              { name: "Destinations", href: "./Destinations" },
+              { name: "Tours", href: "./Tours" },
+              { name: "About", href: "./About-us" },
+              { name: "Testimonials", href: "./Testimonials" },
+              { name: "Blog", href: "./Blog" },
             ].map((link) => (
               <Link
                 key={link.name}

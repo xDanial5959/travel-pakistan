@@ -4,7 +4,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const gallery = [
+type GalleryItem = {
+  id: number;
+  src: string;
+  alt: string;
+  location: string;
+  date: string;
+};
+
+const gallery: GalleryItem[] = [
   { id: 1, src: "/images/luxury.jpg", alt: "Luxury Travel", location: "Dubai, UAE", date: "2024-04-15" },
   { id: 2, src: "/images/adventure.jpg", alt: "Adventure", location: "Hunza, Pakistan", date: "2024-05-10" },
   { id: 3, src: "/images/culture.jpg", alt: "Culture", location: "Istanbul, Turkey", date: "2024-06-20" },
@@ -14,16 +22,27 @@ const gallery = [
 ];
 
 export default function Gallery() {
-  const [selectedSrc, setSelectedSrc] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // close on Esc
+  // keyboard controls
   useEffect(() => {
-    function onKey(e) {
-      if (e.key === "Escape") setSelectedSrc(null);
+    function onKey(e: KeyboardEvent) {
+      if (selectedIndex === null) return;
+      if (e.key === "Escape") {
+        setSelectedIndex(null);
+      } else if (e.key === "ArrowRight") {
+        setSelectedIndex((prev) =>
+          prev === null ? null : (prev + 1) % gallery.length
+        );
+      } else if (e.key === "ArrowLeft") {
+        setSelectedIndex((prev) =>
+          prev === null ? null : (prev - 1 + gallery.length) % gallery.length
+        );
+      }
     }
-    if (selectedSrc) window.addEventListener("keydown", onKey);
+    window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [selectedSrc]);
+  }, [selectedIndex]);
 
   return (
     <section className="relative w-full py-16 bg-gradient-to-b from-white via-sky-50 to-white">
@@ -50,7 +69,7 @@ export default function Gallery() {
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
             className="sm:col-span-4 h-64 sm:h-[420px] rounded-3xl overflow-hidden relative cursor-pointer shadow-2xl group"
-            onClick={() => setSelectedSrc(gallery[0].src)}
+            onClick={() => setSelectedIndex(0)}
           >
             <Image
               src={gallery[0].src}
@@ -77,7 +96,7 @@ export default function Gallery() {
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 viewport={{ once: true }}
                 className="relative h-40 sm:h-[200px] rounded-2xl overflow-hidden shadow-md group cursor-pointer"
-                onClick={() => setSelectedSrc(item.src)}
+                onClick={() => setSelectedIndex(i + 1)}
               >
                 <Image
                   src={item.src}
@@ -105,7 +124,7 @@ export default function Gallery() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               viewport={{ once: true }}
               className="sm:col-span-2 relative h-44 sm:h-[220px] rounded-2xl overflow-hidden shadow-md group cursor-pointer"
-              onClick={() => setSelectedSrc(item.src)}
+              onClick={() => setSelectedIndex(i + 3)}
             >
               <Image
                 src={item.src}
@@ -126,10 +145,10 @@ export default function Gallery() {
       </div>
 
       {/* lightbox */}
-      {selectedSrc && (
+      {selectedIndex !== null && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-6"
-          onClick={() => setSelectedSrc(null)}
+          onClick={() => setSelectedIndex(null)}
         >
           <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
           <div
@@ -138,23 +157,49 @@ export default function Gallery() {
           >
             <button
               aria-label="Close"
-              onClick={() => setSelectedSrc(null)}
+              onClick={() => setSelectedIndex(null)}
               className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow hover:bg-white text-gray-700"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 6l12 12M6 18L18 6" />
               </svg>
             </button>
+
+            {/* selected image */}
             <div className="w-full h-[60vh] sm:h-[75vh] md:h-[80vh] relative bg-black">
               <Image
-                src={selectedSrc}
-                alt="Selected"
+                src={gallery[selectedIndex].src}
+                alt={gallery[selectedIndex].alt}
                 width={1600}
                 height={1000}
                 className="w-full h-full object-contain bg-black"
                 priority
               />
             </div>
+
+            {/* navigation arrows */}
+            <button
+              aria-label="Previous"
+              onClick={() =>
+                setSelectedIndex((prev) =>
+                  prev === null ? null : (prev - 1 + gallery.length) % gallery.length
+                )
+              }
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow hover:bg-white text-gray-700"
+            >
+              ‹
+            </button>
+            <button
+              aria-label="Next"
+              onClick={() =>
+                setSelectedIndex((prev) =>
+                  prev === null ? null : (prev + 1) % gallery.length
+                )
+              }
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow hover:bg-white text-gray-700"
+            >
+              ›
+            </button>
           </div>
         </div>
       )}
